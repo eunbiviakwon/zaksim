@@ -14,14 +14,20 @@ class Post(models.Model):
     )
     created = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return '{author} | {created}'.format(
+            author=self.author.username,
+            created=self.created,
+        )
+
 
 class PostImage(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    image = models.ImageField()
+    image = models.ImageField(upload_to='usr')
 
 
 class PostComment(models.Model):
-    post = models.ForeignKey(Post, ondelete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()
 

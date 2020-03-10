@@ -19,12 +19,15 @@ from django.urls import path, include
 
 from config import settings
 
+from django.conf import settings
+
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('polls/', include('polls.urls')),
-    path('members/', include('members.urls')),
-    path('posts/', include('posts.urls')),
+    # path('members/', include('members.urls')),
+    # path('posts/', include('posts.urls')),
 ]
 
 urlpatterns += static(
