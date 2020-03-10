@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-
+from . import views
 from config import settings
 
 from django.conf import settings
@@ -26,7 +26,8 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('polls/', include('polls.urls')),
-    # path('members/', include('members.urls')),
+    path('', views.index, name='index'),
+    path('members/', include('members.urls')),
     # path('posts/', include('posts.urls')),
 ]
 

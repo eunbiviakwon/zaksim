@@ -20,6 +20,7 @@ CONFIG_SECRET_DIR = os.path.join(ROOT_DIR, '.config_secret')
 CONFIG_SETTINGS_COMMON_FILE = os.path.join(CONFIG_SECRET_DIR, 'settings_common.json')
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
+TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 
 # AWS Access
 config_secret = json.loads(open(CONFIG_SETTINGS_COMMON_FILE).read())
@@ -74,6 +75,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'django_extensions',
     'polls.apps.PollsConfig',
     'storages',
     'members.apps.MembersConfig',
@@ -96,7 +98,9 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            TEMPLATES_DIR,
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
