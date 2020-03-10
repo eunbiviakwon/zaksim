@@ -14,6 +14,7 @@ class Post(models.Model):
     )
     created = models.DateTimeField(auto_now_add=True)
 
+
     def __str__(self):
         return '{author} | {created}'.format(
             author=self.author.username,

@@ -28,7 +28,7 @@ urlpatterns = [
     path('polls/', include('polls.urls')),
     path('', views.index, name='index'),
     path('members/', include('members.urls')),
-    # path('posts/', include('posts.urls')),
+    path('posts/', include('posts.urls')),
 ]
 
 urlpatterns += static(

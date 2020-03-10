@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% for post in posts %}
+<div>{{ post.author }}</div>
+<div>{{ post.created }}</div>
+
+
+{#<form action="/posts/{{ post.pk }}/like/" method="POST">#}
+    <form action="{% url 'posts:post-like' pk=post.pk %}" method="POST">
+        {% csrf_token %}
+           {# {% if user in post.like_users.all %} #}
+            {% if post in user.like_post_set.all %}
+                <div>좋아요 눌린 상태</div>
+            {% else %}
+                <div>좋아요 안 눌린 상태</div>
+            {% endif %}
+            <button type="submit">좋아요</button>
+        </form>
+        <hr>
+    {% endfor %}
+{% endblock %}
+0 comments on commit 29a9cf9
+
+

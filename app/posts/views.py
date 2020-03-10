@@ -1,3 +1,24 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from .models import Post, PostLike
 
-# Create your views here.
+def post_list(request):
+    posts = Post.objects.order_by('-pk')
+    context = {
+        'posts': posts,
+    }
+
+    return render(request, 'posts/post-list.html', context)
+
+def post_like(request, pk):
+    post = Post.objects.get(pk=pk)
+    user = request.user
+    print('post:', post)
+    print('user:', user)
+
+    post_like_qs = PostLike.objects.filter(post=post, user=user)
+    if post_like_qs.exist():
+        post_like_qs.delete()
+    else:
+        PostLike.objects.create(post=post, user=user)
+
+    return redirect('posts:post-list')

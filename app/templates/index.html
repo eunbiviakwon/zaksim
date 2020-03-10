@@ -13,6 +13,9 @@
                     col-sm-8
                     col-10">
             <div class="card text-center p-4">
+                <div>{{ request.user }}</div>
+                <div>{{ request.user.is_authenticated }}</div>
+
                 <h1>zaksim</h1>
                 <p class="text-secondary">친구들의 목표와 인증샷을 보려면 가입하세요</p>
                 <button class="btn btn-primary btn-block">Facebook으로 로그인</button>
@@ -37,7 +40,7 @@
 
             <div class="card text-center p-4 mt-3 mb-3">
                 <span>계정이 있으신가요?</span>
-                <a href="">로그인</a>
+                <a href="{% url 'members:login' %}">로그인</a>
             </div>
         </div>
     </div>
