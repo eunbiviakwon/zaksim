@@ -13,8 +13,11 @@
 <div>작성자: {{ post.author }}</div>
 <div>작성일시: {{ post.created }}</div>
 <div>글내용; {{ post.content }}</div>
-
-<form action="/posts/{{ post.pk }}/like/" method="POST">
+<div>
+    {% for post_image in post.postimage_set.all %}
+    <img src="{{ post_image.image.url }}" alt="" style="max-width: 200px;">
+    {% endfor %}
+</div>
     <form action="{% url 'posts:post-like' pk=post.pk %}" method="POST">
         {% csrf_token %}
 
@@ -25,9 +28,25 @@
         {% endif %}
 
     </form>
+    <div>
+        <ul>
+            {% for comment in post.postcomment_set.all %}
+            <li>
+                <b>{{ comment.author.name }}</b>
+                <span>{{ comment.content }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+        <div>
+            <form action="{% url 'posts:comment-create' post_pk=post.pk %}" method="POST">
+                {% csrf_token %}
+                {{ comment_form }}
+                <button type="submit">작성</button>
+            </form>
+        </div>
+    </div>
     <hr>
     {% endfor %}
     {% endblock %}
-    0 comments on commit 29a9cf9
 
 

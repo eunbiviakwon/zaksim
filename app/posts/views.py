@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect
 from .models import Post, PostLike, PostImage
-from .forms import PostCreateForm
+from .forms import PostCreateForm, CommentCreateForm
 
 
 def post_list(request):
     posts = Post.objects.order_by('-pk')
+    comment_form = CommentCreateForm()
     context = {
         'posts': posts,
+        'comment_form': comment_form,
     }
 
     return render(request, 'posts/post-list.html', context)
@@ -19,7 +21,7 @@ def post_like(request, pk):
     print('user:', user)
 
     post_like_qs = PostLike.objects.filter(post=post, user=user)
-    if post_like_qs.exist():
+    if post_like_qs.exists():
         post_like_qs.delete()
     else:
         PostLike.objects.create(post=post, user=user)
@@ -31,18 +33,23 @@ def post_create(request):
 
     if request.method == 'POST':
         text = request.POST['text']
-        image = request.FILES['image']
+        images = request.FILES.getlist('image')
         post = Post.objects.create(
             author=request.user,
-            content=text
+            content=text,
         )
-        post.postimage_set.create(image=image)
+        for image in images:
+            post.postimage_set.create(image=image)
         return redirect('posts:post-list')
     else:
         form = PostCreateForm()
         context = {
             'form': form,
         }
+        return render(request, 'posts/post-create.html', context)
 
 
-    return render(request, 'post/post-create.html', context)
+def comment_create(request, post_pk):
+    if request.method == 'POST':
+        post = Post.objects.get(pk=post_pk)
+        return redirect('posts:post-list')
