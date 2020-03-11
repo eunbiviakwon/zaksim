@@ -1,25 +1,33 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div>User: {{ request.user }}</div>
+<div>Authenticated: {{ request.user.is_authenticated }}</div>
+<div>
+    <a href="{% url 'members:logout' %}">로그아웃</a>
+</div>
+<div>
+    <a href="{% url 'posts:post-create' %}">인증샷 추가</a>
+</div>
 {% for post in posts %}
-<div>{{ post.author }}</div>
-<div>{{ post.created }}</div>
+<div>작성자: {{ post.author }}</div>
+<div>작성일시: {{ post.created }}</div>
+<div>글내용; {{ post.content }}</div>
 
-
-{#<form action="/posts/{{ post.pk }}/like/" method="POST">#}
+<form action="/posts/{{ post.pk }}/like/" method="POST">
     <form action="{% url 'posts:post-like' pk=post.pk %}" method="POST">
         {% csrf_token %}
-           {# {% if user in post.like_users.all %} #}
-            {% if post in user.like_post_set.all %}
-                <div>좋아요 눌린 상태</div>
-            {% else %}
-                <div>좋아요 안 눌린 상태</div>
-            {% endif %}
-            <button type="submit">좋아요</button>
-        </form>
-        <hr>
+
+        {% if post in user.like_post_set.all %}
+        <button class="btn btn-primary" type="submit">좋아요 취소</button>
+        {% else %}
+        <button class="btn btn-outline-primary" type="submit">좋아요</button>
+        {% endif %}
+
+    </form>
+    <hr>
     {% endfor %}
-{% endblock %}
-0 comments on commit 29a9cf9
+    {% endblock %}
+    0 comments on commit 29a9cf9
 
 
